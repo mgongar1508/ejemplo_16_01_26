@@ -6,7 +6,7 @@ use App\Models\Curso;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    $cursos=Curso::with('category', 'user')->where('disponible', 'SI')->paginate(5);
+    $cursos=Curso::with('category', 'user', 'tags')->where('disponible', 'SI')->paginate(5);
     return view('welcome', compact('cursos'));
 })->name('inicio');
 

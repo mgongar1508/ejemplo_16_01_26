@@ -24,7 +24,7 @@ class Curso extends Model
     }
 
     //relacion n:m con tag
-    public function tag():BelongsToMany{
+    public function tags():BelongsToMany{
         return $this->belongsToMany(Tag::class);
     }
 }

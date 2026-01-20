@@ -12,7 +12,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        return view('categories.indice');
+        $categorias = Category::orderby('id', 'desc')->get();
+        return view('categories.inicio', compact('categorias'));
     }
 
     /**
@@ -20,7 +21,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        //
+        return view('categories.nuevo');
     }
 
     /**
@@ -28,7 +29,9 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate(self::rules());
+        Category::create($request->all());
+        return redirect()->route('categories.index')->with('mensaje', 'categoria creada');
     }
 
     /**
@@ -60,6 +63,14 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        //
+        $category->delete();
+        return redirect()->route('categories.index')->with('mensaje', 'categoria borrada');
+    }
+
+    private static function rules(?int $id=null){
+        return [
+            'nombre' => ['require', 'string', 'min:3', 'max:50', 'unique:categories,nombre'.$id],
+            'color' => ['require', 'color']
+        ];
     }
 }
