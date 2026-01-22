@@ -27,11 +27,11 @@ class CategoryController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+     public function store(Request $request)
     {
         $request->validate(self::rules());
         Category::create($request->all());
-        return redirect()->route('categories.index')->with('mensaje', 'categoria creada');
+        return redirect()->route('categories.index')->with('mensaje', 'Categoria guardada');
     }
 
     /**
@@ -47,7 +47,7 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        //
+        return view('categories.edit', compact('category'));
     }
 
     /**
@@ -55,7 +55,9 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
-        //
+        $request->validate(self::rules($category->id));
+        $category->update($request->all());
+        return redirect()->route('categories.index')->with('mensaje', 'Categoria actualizada');
     }
 
     /**
@@ -67,10 +69,10 @@ class CategoryController extends Controller
         return redirect()->route('categories.index')->with('mensaje', 'categoria borrada');
     }
 
-    private static function rules(?int $id=null){
+     private static function rules(?int $id=null): array{
         return [
-            'nombre' => ['require', 'string', 'min:3', 'max:50', 'unique:categories,nombre'.$id],
-            'color' => ['require', 'color']
+            'nombre'=>['required', 'string', 'min:3', 'max:30', 'unique:categories,nombre,'.$id],
+            'color'=>['required', 'color'],
         ];
     }
 }

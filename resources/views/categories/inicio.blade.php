@@ -51,10 +51,10 @@
                 <form action="{{ route('categories.destroy', $item->id) }}" method="POST">
                 @csrf
                 @method('DELETE')
-                <button class="inline-flex items-center px-3 py-1.5 text-sm font-medium rounded-lg bg-blue-50 text-blue-600 hover:bg-blue-100 transition-colors duration-200">
+                <a href="{{ route('categories.edit', $item->id) }}" class="inline-flex items-center px-3 py-1.5 text-sm font-medium rounded-lg bg-blue-50 text-blue-600 hover:bg-blue-100 transition-colors duration-200">
                   <i class="fas fa-edit mr-1"></i>
                   Editar
-                </button>
+                </a>
                 <button onclick="return confirm('Estas seguro de borrar la categoria?')" class="inline-flex items-center px-3 py-1.5 text-sm font-medium rounded-lg bg-red-50 text-red-600 hover:bg-red-100 transition-colors duration-200">
                   <i class="fas fa-trash mr-1"></i>
                   Eliminar
