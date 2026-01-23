@@ -1,6 +1,7 @@
 <x-miscomponentes.base>
-    <div class="flex flex-row items-center mb-2">
+    <div class="flex flex-row items-center justify-between mb-2">
         <x-input type="search" wire:model.live='texto' placeholder='Buscar...'></x-input>
+        @livewire('Cursos.create-user-curso')
     </div>
     @if($cursos->count())
     <div class="overflow-x-auto rounded-lg border border-gray-200 shadow-md">

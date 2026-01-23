@@ -4,6 +4,7 @@ namespace App\Livewire\Cursos;
 
 use App\Models\Curso;
 use Illuminate\Support\Facades\Auth;
+use Livewire\Attributes\On;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -15,6 +16,7 @@ class ShowUserCursos extends Component
     public string $orden = 'desc';
     public string $texto = '';
 
+    #[On("eventoCursoCreado")] //cuando se crea un curso se hace render otra vez
     public function render()
     {
         $cursos = Curso::with('tags')->select('cursos.*', 'categories.nombre as cnombre', 'categories.color')
@@ -24,7 +26,10 @@ class ShowUserCursos extends Component
             $q->where('cursos.nombre', 'like', "%{$this->texto}%")
             ->orwhere('cnombre', 'like', "%{$this->texto}%")
             ->orwhere('cursos.nombre', 'like', "%{$this->texto}%")
-            ->orwhere('cursos.disponible', 'like', "%{$this->texto}%");
+            ->orwhere('cursos.disponible', 'like', "%{$this->texto}%")
+            ->orwhereHas('tags', function($q){
+                $q->where('nombre', 'like', "%{$this->texto}%");
+            });
         })
         ->orderBy($this->campo, $this->orden)
         ->paginate(5);
