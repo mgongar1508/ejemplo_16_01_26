@@ -42,8 +42,5 @@
         </div>
 
         @stack('modals')
-
-        @livewireScripts
-        <x-miscomponentes.alerta></x-miscomponentes.alerta>
     </body>
 </html>
