@@ -1,4 +1,4 @@
-@component('mail:message')
+@component('mail::message')
 ## NOMBRE {{ $datos['nombre'] }}
 ## EMAIL *{{ $datos['email'] }}*
 

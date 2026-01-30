@@ -15,7 +15,7 @@ class ContactoController extends Controller
 
     public function procesarFormularioContacto(Request $request){
         $datos = $request->validate(self::rules());
-        $datos['email'] == Auth::user() ? Auth::user()->mail : $datos['email'];
+        $datos['email'] = Auth::check() ? Auth::user()->email : $datos['email'];
         try{
             Mail::to('soporte@mitio.com')->send(new ContactoMailable($datos));
             return redirect()->route('inicio')->with('mensaje', 'Correo enviado, gracias por sus sugerencias');
