@@ -6,6 +6,7 @@ use Exception;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
+use Illuminate\Mail\Mailables\Address;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
@@ -20,11 +21,7 @@ class ContactoMailable extends Mailable
      */
     public function __construct(public array $datos) //declara y usa como parametro a la vez
     {
-        try{
-            Mail::to("suporto@misitio.com")->send(new ContactoMailable($datos));
-        }catch(Exception $ex){
-            return redirect()->route('contacto.show')->with('mensaje', 'mensaje no se pudo enviar');
-        }
+        
     }
 
     /**
@@ -33,7 +30,11 @@ class ContactoMailable extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Contacto Mailable',
+            subject: 'Formulario de contacto',
+            from: new Address('noreply@misitio.com', 'nombre del sitio'), //de illuminate/mail/mailable
+            replyTo:[
+                new Address($this->datos['email'], $this->datos['nombre'] ?? 'usuario generico')
+            ] 
         );
     }
 
@@ -43,7 +44,7 @@ class ContactoMailable extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'view.name',
+            markdown: 'vistasCorreo.vista-buena',
         );
     }
 

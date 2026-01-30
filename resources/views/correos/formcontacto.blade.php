@@ -8,7 +8,7 @@
                     <p class="text-gray-500 mt-2">Nos encantaría saber de ti</p>
                 </div>
 
-                <form action="#" method="POST" class="space-y-6">
+                <form action="{{ route('contacto.send') }}" method="POST" class="space-y-6">
                     @csrf
                     <div>
                         <label for="nombre" class="block text-sm font-medium text-gray-700 mb-1">Nombre Completo</label>

@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\ContactoMailable;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class ContactoController extends Controller
 {
@@ -13,8 +15,14 @@ class ContactoController extends Controller
 
     public function procesarFormularioContacto(Request $request){
         $datos = $request->validate(self::rules());
-        $datos = ['email'] == Auth::user() ? Auth::user()->mail : $datos['email'];
-        return redirect()->route('contacto.show')->with('mensaje', 'mensaje enviado');
+        $datos['email'] == Auth::user() ? Auth::user()->mail : $datos['email'];
+        try{
+            Mail::to('soporte@mitio.com')->send(new ContactoMailable($datos));
+            return redirect()->route('inicio')->with('mensaje', 'Correo enviado, gracias por sus sugerencias');
+        }catch(\Exception $ex){
+            dd($ex->getMessage());
+            //return redirect()->route('inicio')->with('mensaje', 'No se pudo enviar el mensaje, intentelo más tarde');
+        }
     }
 
     public function rules():array{
