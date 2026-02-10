@@ -13,7 +13,6 @@ class UpdateUserCursoForm extends Form
 {
     public ?Curso $curso=null;
 
-    #[Validate('required', 'string', 'min:3', 'max:150', 'unique:cursos,nombre')]
     public string $nombre="";
 
     #[Validate(['required', 'string', 'min:10', 'max:500'])]
